@@ -23,29 +23,17 @@ export default class AppContainer extends Component {
     } else {
       // server is specified, get the imageURL from the API endpoint
       const taskId = this.props.match.params.taskId;
-      console.log(taskId);
       const parsed = queryString.parse(this.props.location.search);
-      
-      axios.get(
-        `${config["server"][process.env.NODE_ENV]}/boxes/${taskId}
-        ?hitId=${parsed.hitId}
-        &workerId=${parsed.workerId}
-        &assignmentId=${parsed.assignmentId}`
-      ).then(res => {
-        // console.log(res);
-        this.setState({
-          imageURL: res.data.imageUrl
-        });
-      })
-      .catch(err => {
-        console.log(err);
+
+      const imageURL = `${config["server"]}${taskId}.jpg`;
+      this.setState({
+        imageURL: imageURL
       });
     }
-
   }
 
   render() {
     console.log(this.state.imageURL);
-    return <App imageURL={this.state.imageURL} />
+    return <App imageURL={this.state.imageURL} showHeader={true} showSidePanel={true}/>
   }
 }
